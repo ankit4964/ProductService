@@ -1,5 +1,6 @@
 package org.example.productservice.services;
 
+import org.example.productservice.dtos.CreateProductRequestDto;
 import org.example.productservice.dtos.FakeStoreProductDto;
 import org.example.productservice.exceptions.ProductNotFoundException;
 import org.example.productservice.models.Category;
@@ -11,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Service("FakeStoreProductService")
 public class FakeStoreProductService implements ProductService {
     private final RestTemplate restTemplate;
 
@@ -40,14 +41,13 @@ public class FakeStoreProductService implements ProductService {
         }
         List<Product> products = new ArrayList<>();
         for(FakeStoreProductDto fakeStoreProductDto1 : fakeStoreProductDto) {
-            Product product = convertFakeStoreProductDtoToProduct(fakeStoreProductDto1);
-            products.add(product);
+            products.add(convertFakeStoreProductDtoToProduct(fakeStoreProductDto1));
         }
         return products;
     }
 
     @Override
-    public Product createProduct(Product product) {
+    public Product createProduct(CreateProductRequestDto product) {
         return null;
     }
 

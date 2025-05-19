@@ -1,9 +1,11 @@
 package org.example.productservice.controllers;
 
+import org.example.productservice.dtos.CreateProductRequestDto;
 import org.example.productservice.exceptions.ProductNotFoundException;
 import org.example.productservice.models.Product;
 import org.example.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,34 +19,26 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(@Qualifier("RealProductService") ProductService productService) {
         this.productService = productService;
     }
 
     @GetMapping("/{id}")
-    public Product getSingleProduct(@PathVariable("id") Long productId) {
-        try {
-            System.out.println("Product Id: " + productId);
-            return productService.getProduct(productId);
-        } catch(ProductNotFoundException e) {
-            System.out.println("Product not found");
-            return null;
-        }
+    public Product getSingleProduct(@PathVariable("id") Long productId) throws ProductNotFoundException {
+        System.out.println("Product Id: " + productId);
+        return productService.getProduct(productId);
     }
 
     @GetMapping({"/", ""})
-    public List<Product> getAllProducts() {
-        try {
-            return this.productService.getProducts();
-        } catch(ProductNotFoundException e) {
-            System.out.println("Product not found");
-            return null;
-        }
+    public List<Product> getAllProducts() throws ProductNotFoundException {
+        return this.productService.getProducts();
     }
 
     @PostMapping({ "/", ""})
-    public Product addProduct(Product product) {
-        return this.productService.createProduct(product);
+    public Product addProduct(@RequestBody CreateProductRequestDto requestDto) throws Exception {
+//        throw new Exception("Dummy exception");
+        System.out.println("Product in Controller: " + requestDto);
+        return this.productService.createProduct(requestDto);
     }
 
     @DeleteMapping("/{id}")

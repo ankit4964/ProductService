@@ -1,30 +1,26 @@
-package org.example.productservice.models;
+package org.example.productservice.dtos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
+@Component
 @Getter
 @Setter
-@Entity
-public class Product extends BaseModel {
+public class CreateProductRequestDto {
     private String title;
     private String description;
     private Double price;
+    private String category;
     private String imageUrl;
-    @ManyToOne
-    private Category category;
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "CreateProductRequestDto{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", price=" + price +
-                ", imageUrl='" + imageUrl + '\'' +
-                ", category=" + category +
+                ", category='" + category + '\'' +
                 '}';
     }
-
 }
